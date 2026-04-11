@@ -279,9 +279,9 @@
             let amountRaw = (row[idxAmount] || '0').trim().replace(/^"|"$/g, '');
             let note = (row[idxNote] || '---').trim().replace(/^"|"$/g, '');
 
-            // Xử lý số điện thoại: rỗng thì để ---, có thì hiện 4 số cuối
-            let phoneRaw = (row[idxPhone] || '').trim().replace(/^"|"$/g, '').replace(/\s/g, '');
-            let hiddenPhone = (phoneRaw !== "" && phoneRaw.length >= 4) ? `xxx.xxx.${phoneRaw.slice(-4)}` : '---';
+            // Xử lý ẩn số điện thoại
+            let phoneVal = (row[idxPhone] || '').trim().replace(/^"|"$/g, '').replace(/\s/g, '');
+            let hiddenPhone = phoneVal.length >= 4 ? `xxx.xxx.${phoneVal.slice(-4)}` : '---';
 
             // Tính tổng tiền
             let cashValue = parseFloat(amountRaw.replace(/[^0-9]/g, '')) || 0;
