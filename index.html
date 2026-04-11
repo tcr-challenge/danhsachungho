@@ -133,7 +133,7 @@
             color: var(--primary-color);
         }
 
-.footer-info {
+        .footer-info {
             width: 100%;
             max-width: 1000px;
             margin-bottom: 60px;
@@ -188,18 +188,36 @@
             text-decoration: underline;
         }
 
+        .amount-cell {
+            font-weight: 700;
+            color: #d32f2f;
+        }
+
+        /* --- PHẦN TỰ ĐỘNG NHẬN DIỆN DI ĐỘNG --- */
         @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .header h1 { font-size: 20px; }
+            .header .sub-title { font-size: 14px; }
+            
+            /* Thu nhỏ bảng trên di động */
+            table { min-width: 100%; }
+            
+            /* Ẩn các cột không cần thiết trên mobile: Địa chỉ (col 4), SĐT (col 5), Ghi chú (col 7) */
+            th:nth-child(4), td:nth-child(4),
+            th:nth-child(5), td:nth-child(5),
+            th:nth-child(7), td:nth-child(7) {
+                display: none;
+            }
+
             .footer-grid { flex-direction: column; }
             .footer-divider { display: none; }
             .footer-column { padding: 10px 0; border-bottom: 1px solid #ddd; }
             .footer-column:last-child { border-bottom: none; }
-            .summary-box { gap: 10px; font-size: 13px; }
+            .summary-box { gap: 10px; font-size: 13px; flex-direction: column; align-items: center; }
         }
 
         @media (max-width: 600px) {
-            .header h1 { font-size: 20px; }
-            .header .sub-title { font-size: 14px; }
-            th, td { padding: 12px 8px; font-size: 12px; }
+            th, td { padding: 10px 5px; font-size: 12px; }
         }
     </style>
 </head>
@@ -228,7 +246,7 @@
         <table id="donor-table">
             <thead>
                 <tr>
-                    <th style="width: 50px;">STT</th>
+                    <th style="width: 40px;">STT</th>
                     <th>Họ và Tên</th>
                     <th>Công ty doanh nghiệp</th>
                     <th>Địa chỉ</th>
@@ -333,7 +351,6 @@
         
         const formattedTotal = totalCash.toLocaleString('vi-VN') + ' VNĐ';
         
-        // Cập nhật giá trị vào cả hai khung tổng tiền
         const displays = document.querySelectorAll('.total-amount-display');
         displays.forEach(el => el.innerText = formattedTotal);
 
