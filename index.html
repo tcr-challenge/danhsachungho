@@ -281,7 +281,7 @@
 
             // Xử lý số điện thoại: rỗng thì để ---, có thì hiện 4 số cuối
             let phoneRaw = (row[idxPhone] || '').trim().replace(/^"|"$/g, '').replace(/\s/g, '');
-            let hiddenPhone = (phoneRaw !== "" && phoneRaw.length >= 4) ? `xxx.xxx.${phoneRaw.slice(-4)}` : '---';
+            let displayPhone = (phoneRaw !== "" && phoneRaw.length >= 4) ? `...${phoneRaw.slice(-4)}` : '---';
 
             // Tính tổng tiền
             let cashValue = parseFloat(amountRaw.replace(/[^0-9]/g, '')) || 0;
@@ -292,7 +292,7 @@
                 <td style="font-weight:600; color:var(--secondary-color);">${name}</td>
                 <td>${company}</td>
                 <td>${address}</td>
-                <td style="font-family: monospace; letter-spacing: 1px;">${hiddenPhone}</td>
+                <td style="font-family: monospace; letter-spacing: 1px;">${displayPhone}</td>
                 <td class="amount-cell">${amountRaw}</td>
                 <td style="font-style: italic; color: #666;">${note}</td>
             </tr>`;
