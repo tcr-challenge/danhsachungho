@@ -123,6 +123,12 @@
         tr:nth-child(even) { background-color: #fafafa; }
         tr:hover { background-color: #fff9c4 !important; }
 
+        .total-row {
+            background-color: var(--gold-bg) !important;
+            font-weight: 800;
+            border-top: 2px solid var(--primary-color);
+        }
+
         .loading {
             text-align: center;
             padding: 40px;
@@ -217,6 +223,8 @@
             <tbody id="table-body">
                 <tr><td colspan="7" class="loading">Đang tải danh sách mạnh thường quân...</td></tr>
             </tbody>
+            <tfoot id="table-foot">
+                </tfoot>
         </table>
     </div>
 </div>
@@ -279,12 +287,10 @@
             let amountRaw = (row[idxAmount] || '0').trim().replace(/^"|"$/g, '');
             let note = (row[idxNote] || '---').trim().replace(/^"|"$/g, '');
 
-            // Xử lý số điện thoại: rỗng hoặc chứa chữ "không" thì để ---, có số thì hiện 4 số cuối
             let phoneRaw = (row[idxPhone] || '').trim().replace(/^"|"$/g, '').replace(/\s/g, '');
             let isNoPhone = phoneRaw === "" || phoneRaw.toLowerCase().includes("không");
             let displayPhone = (!isNoPhone && phoneRaw.length >= 4) ? `...${phoneRaw.slice(-4)}` : '---';
 
-            // Tính tổng tiền
             let cashValue = parseFloat(amountRaw.replace(/[^0-9]/g, '')) || 0;
             totalCash += cashValue;
 
@@ -300,9 +306,24 @@
         });
 
         document.getElementById('table-body').innerHTML = bodyHtml;
-        document.getElementById('total-amount').innerText = totalCash.toLocaleString('vi-VN') + ' VNĐ';
+        
+        const formattedTotal = totalCash.toLocaleString('vi-VN') + ' VNĐ';
+        document.getElementById('table-foot').innerHTML = `
+            <tr class="total-row">
+                <td colspan="5" style="text-align: right; padding-right: 20px;">TỔNG CỘNG TẤT CẢ:</td>
+                <td class="amount-cell" style="font-size: 16px;">${formattedTotal}</td>
+                <td></td>
+            </tr>
+        `;
+
+        document.getElementById('total-amount').innerText = formattedTotal;
         document.getElementById('count').innerText = `Tổng cộng: ${donorCount} lượt ủng hộ`;
-        document.getElementById('update-time').innerText = `Cập nhật: ${new Date().toLocaleTimeString()}`;
+        
+        // Thêm ngày tháng năm vào phần hiển thị giờ cập nhật
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('vi-VN');
+        const dateStr = now.toLocaleDateString('vi-VN');
+        document.getElementById('update-time').innerText = `Cập nhật: ${timeStr} - ${dateStr}`;
     }
 
     fetchData();
