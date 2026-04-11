@@ -279,9 +279,10 @@
             let amountRaw = (row[idxAmount] || '0').trim().replace(/^"|"$/g, '');
             let note = (row[idxNote] || '---').trim().replace(/^"|"$/g, '');
 
-            // Xử lý số điện thoại: rỗng thì để ---, có thì hiện 4 số cuối
+            // Xử lý số điện thoại: rỗng hoặc chứa chữ "không" thì để ---, có số thì hiện 4 số cuối
             let phoneRaw = (row[idxPhone] || '').trim().replace(/^"|"$/g, '').replace(/\s/g, '');
-            let displayPhone = (phoneRaw !== "" && phoneRaw.length >= 4) ? `...${phoneRaw.slice(-4)}` : '---';
+            let isNoPhone = phoneRaw === "" || phoneRaw.toLowerCase().includes("không");
+            let displayPhone = (!isNoPhone && phoneRaw.length >= 4) ? `...${phoneRaw.slice(-4)}` : '---';
 
             // Tính tổng tiền
             let cashValue = parseFloat(amountRaw.replace(/[^0-9]/g, '')) || 0;
