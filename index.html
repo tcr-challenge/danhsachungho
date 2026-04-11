@@ -96,7 +96,10 @@
             align-items: center;
         }
 
-        .table-wrapper { overflow-x: auto; }
+        .table-wrapper { 
+            overflow-x: auto; 
+            margin-bottom: 20px;
+        }
 
         table {
             width: 100%;
@@ -122,12 +125,6 @@
 
         tr:nth-child(even) { background-color: #fafafa; }
         tr:hover { background-color: #fff9c4 !important; }
-
-        .total-row {
-            background-color: var(--gold-bg) !important;
-            font-weight: 800;
-            border-top: 2px solid var(--primary-color);
-        }
 
         .loading {
             text-align: center;
@@ -197,8 +194,8 @@
     </div>
 
     <div class="status-bar">
-        <div id="summary" class="summary-box">
-            Tổng số tiền ủng hộ: <span id="total-amount" style="color: #d32f2f; margin-left: 10px;">0 VNĐ</span>
+        <div id="summary-top" class="summary-box">
+            Tổng số tiền ủng hộ: <span class="total-amount-display" style="color: #d32f2f; margin-left: 10px;">0 VNĐ</span>
         </div>
         
         <div class="count-info">
@@ -223,9 +220,11 @@
             <tbody id="table-body">
                 <tr><td colspan="7" class="loading">Đang tải danh sách mạnh thường quân...</td></tr>
             </tbody>
-            <tfoot id="table-foot">
-                </tfoot>
         </table>
+    </div>
+
+    <div id="summary-bottom" class="summary-box" style="margin-top: 20px; border-style: dashed;">
+        Tổng số tiền ủng hộ: <span class="total-amount-display" style="color: #d32f2f; margin-left: 10px;">0 VNĐ</span>
     </div>
 </div>
 
@@ -308,18 +307,13 @@
         document.getElementById('table-body').innerHTML = bodyHtml;
         
         const formattedTotal = totalCash.toLocaleString('vi-VN') + ' VNĐ';
-        document.getElementById('table-foot').innerHTML = `
-            <tr class="total-row">
-                <td colspan="5" style="text-align: right; padding-right: 20px;">TỔNG CỘNG TẤT CẢ:</td>
-                <td class="amount-cell" style="font-size: 16px;">${formattedTotal}</td>
-                <td></td>
-            </tr>
-        `;
+        
+        // Cập nhật giá trị vào cả hai khung tổng tiền
+        const displays = document.querySelectorAll('.total-amount-display');
+        displays.forEach(el => el.innerText = formattedTotal);
 
-        document.getElementById('total-amount').innerText = formattedTotal;
         document.getElementById('count').innerText = `Tổng cộng: ${donorCount} lượt ủng hộ`;
         
-        // Thêm ngày tháng năm vào phần hiển thị giờ cập nhật
         const now = new Date();
         const timeStr = now.toLocaleTimeString('vi-VN');
         const dateStr = now.toLocaleDateString('vi-VN');
