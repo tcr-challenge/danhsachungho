@@ -158,7 +158,6 @@
 
         .amount-cell { font-weight: 700; color: #d32f2f; }
         
-        /* CẬP NHẬT: Không in nghiêng, viết hoa hết */
         .gift-cell { 
             font-weight: 700; 
             color: #2e7d32; 
@@ -273,15 +272,24 @@
 <script>
     const tsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQpMfXvpG3RBMCNXm_m-iP9YjY_uZKLcxdnfRm86mo8hgPBGz5n3-xC3yuyjXrJM3rA1q0DNsYHJ2tx/pub?gid=797207538&single=true&output=tsv';
 
+    // Hàm chuyển số thành chữ tiếng Việt đã sửa lỗi "Không trăm" ở đầu
     function docSoTiengViet(so) {
         if (so == 0) return "Không đồng";
         const chuSo = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
-        function doc3So(n, showZero) {
+        
+        function doc3So(n, showZero, isFirstGroup) {
             let res = "";
             let tram = Math.floor(n / 100);
             let chuc = Math.floor((n % 100) / 10);
             let donVi = n % 10;
-            if (tram > 0 || showZero) res += chuSo[tram] + " trăm ";
+            
+            // Xử lý hàng trăm: Không đọc "không trăm" nếu là nhóm đầu tiên của số lớn
+            if (tram > 0) {
+                res += chuSo[tram] + " trăm ";
+            } else if (showZero && !isFirstGroup) {
+                res += "không trăm ";
+            }
+
             if (chuc > 1) {
                 res += chuSo[chuc] + " mươi ";
                 if (donVi == 1) res += "mốt";
@@ -292,21 +300,33 @@
                 if (donVi == 5) res += "lăm";
                 else if (donVi > 0) res += chuSo[donVi];
             } else if (donVi > 0) {
-                if (tram > 0 || showZero) res += "lẻ " + chuSo[donVi];
+                if (tram > 0 || (showZero && !isFirstGroup)) res += "lẻ " + chuSo[donVi];
                 else res += chuSo[donVi];
             }
             return res;
         }
+
         let units = ["", "nghìn", "triệu", "tỷ"];
         let res = "";
         let i = 0;
-        while (so > 0) {
-            let n = so % 1000;
-            if (n > 0) res = doc3So(n, i > 0 && so > 9) + " " + units[i] + " " + res;
-            so = Math.floor(so / 1000);
-            i++;
+        let tempSo = so;
+        let blocks = [];
+        
+        while (tempSo > 0) {
+            blocks.push(tempSo % 1000);
+            tempSo = Math.floor(tempSo / 1000);
         }
-        res = res.trim();
+
+        for (let i = blocks.length - 1; i >= 0; i--) {
+            let n = blocks[i];
+            if (n > 0) {
+                // isFirstGroup = true nếu đây là nhóm cao nhất (ví dụ nhóm triệu trong 32tr)
+                let isFirstGroup = (i === blocks.length - 1);
+                res += doc3So(n, true, isFirstGroup) + " " + units[i] + " ";
+            }
+        }
+        
+        res = res.trim().replace(/\s+/g, ' ');
         return res.charAt(0).toUpperCase() + res.slice(1) + " đồng";
     }
 
@@ -354,7 +374,6 @@
             let cashValue = parseFloat(amountRaw.replace(/[^0-9]/g, '')) || 0;
             totalCash += cashValue;
 
-            // Xử lý hiển thị: Nếu là quà tặng thì viết hoa và không in nghiêng
             let finalAmountHtml = (cashValue > 0) ? 
                 `<span class="amount-cell">${cashValue.toLocaleString('vi-VN')} đ</span>` : 
                 `<span class="gift-cell">${note !== '---' ? note : 'QUÀ TẶNG'}</span>`;
