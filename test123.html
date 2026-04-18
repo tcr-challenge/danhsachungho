@@ -7,10 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #d32f2f; /* Màu đỏ đô cổ kính hơn */
+            --primary-color: #d32f2f; 
             --primary-hover: #b71c1c;
             --secondary-color: #1a237e; 
-            --bg-color: #fdfaf5; /* Màu giấy gạch nhẹ cổ điển */
+            --bg-color: #fdfaf5; 
             --text-color: #333;
             --gold-bg: rgba(255, 193, 7, 0.15);
             
@@ -26,14 +26,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* Lớp nền chính: Màu giấy gạch */
             background-color: var(--bg-color);
-            /* Lớp nền phụ: Họa tiết mây vân cổ chìm toàn trang */
-            background-image: url('https://i.imgur.com/8N4N5zN.png'); /* Link ảnh họa tiết mây cổ chìm */
+            /* Cập nhật link ảnh họa tiết mây cổ mới */
+            background-image: url('https://www.transparenttextures.com/patterns/cloudy-day.png'), url('https://img.freepik.com/free-vector/traditional-vietnamese-cloud-pattern-background_1048-13002.jpg?semt=ais_hybrid');
+            background-blend-mode: overlay;
             background-repeat: repeat;
             background-position: center;
-            background-attachment: fixed; /* Giữ nền cố định khi cuộn */
-            background-size: 500px; /* Điều chỉnh kích thước họa tiết mây */
+            background-attachment: fixed; 
+            background-size: 600px; 
             color: var(--text-color);
         }
 
@@ -52,14 +52,14 @@
         .container {
             width: 100%;
             max-width: 1200px;
-            background: rgba(255, 255, 255, 0.95); /* Làm nền container hơi trong suốt */
+            background: rgba(255, 255, 255, 0.96); 
             padding: 30px;
             box-sizing: border-box;
             border-radius: 0 0 12px 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             margin-bottom: 30px;
             border: 1px solid #e0e0e0;
-            position: relative; /* Để tạo lớp phủ họa tiết góc (nếu cần) */
+            position: relative; 
         }
 
         .header {
@@ -74,7 +74,7 @@
             text-transform: uppercase;
             line-height: 1.3;
             font-weight: 800;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1); /* Tạo độ nổi nhẹ cổ điển */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1); 
         }
 
         .header .sub-title {
@@ -213,7 +213,7 @@
             margin-bottom: 70px;
             padding: 30px;
             box-sizing: border-box;
-            background: rgba(255, 255, 255, 0.8); /* Nền mờ cho footer */
+            background: rgba(255, 255, 255, 0.85); 
             border-radius: 10px;
             border: 1px solid #e0e0e0;
         }
@@ -311,17 +311,19 @@
             <p><strong>BAN TỔ CHỨC GIẢI CHẠY</strong></p>
             <p>Ông <strong>Nguyễn Anh Tuấn:</strong> 0968 814 606 (Trưởng BTC - Chủ nhiệm TCR)</p>
             <p>Facebook BTC: <a href="https://vnshort.com/WL5A" target="_blank">@ThuongCatRunners - TCR</a></p>
+            <p>Nhóm chạy bộ TCR: <a href="https://web.facebook.com/groups/thuongcatrunners " target="_blank">Thượng Cát Runners</a></p>
+            <p>Nhóm Zalo giải chạy: <a href="https://vnshort.com/vy6J" target="_blank">vnshort.com/vy6J</a></p>
         </div>
         <div class="footer-divider"></div>
         <div class="footer-column">
             <p><strong>LỄ HỘI TRUYỀN THỐNG ĐÌNH LÀNG THƯỢNG CÁT 2026</strong></p>
-            <p>Fanpage: <a href="https://web.facebook.com/thuongcatbactuliemhanoi" target="_blank">Làng bên sông</a></p>
+            <p>Fanpage: <a href="https://web.facebook.com/thuongcatbactuliemhanoi" target="_blank">Làng bên sông</a> và <a href="https://web.facebook.com/dinhthuongcat" target="_blank">Đình làng Thượng Cát</a></p>
+            <p>Bản đồ: <a href="https://maps.app.goo.gl/JDyHh4N3E7R8cq1F7" target="_blank">Xem trên Google Maps</a></p>
         </div>
     </div>
 </div>
 
 <script>
-    // CẬP NHẬT ĐƯỜNG LINK TSV VỚI GID MỚI CỦA ANH
     const tsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQpMfXvpG3RBMCNXm_m-iP9YjY_uZKLcxdnfRm86mo8hgPBGz5n3-xC3yuyjXrJM3rA1q0DNsYHJ2tx/pub?gid=797207538&single=true&output=tsv';
 
     function docSoTiengViet(so) {
@@ -375,7 +377,7 @@
             const rows = text.split('\n').map(row => row.split('\t'));
             if (rows.length > 1) renderTable(rows);
         } catch (error) {
-            document.getElementById('table-body').innerHTML = '<tr><td colspan="7" class="loading">Lỗi kết nối dữ liệu. Vui lòng kiểm tra lại link TSV.</td></tr>';
+            document.getElementById('table-body').innerHTML = '<tr><td colspan="7" class="loading">Lỗi kết nối dữ liệu.</td></tr>';
         }
     }
 
