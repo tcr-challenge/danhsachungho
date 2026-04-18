@@ -14,7 +14,6 @@
             --text-color: #333;
             --gold-bg: rgba(255, 193, 7, 0.1);
             
-            /* Màu sắc phân nhóm */
             --color-elite: #e3f2fd;
             --color-5km: #e8f5e9;
             --color-3km: #fff3e0;
@@ -83,22 +82,38 @@
 
         .summary-box {
             display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            gap: 20px;
             margin-bottom: 15px;
-            padding: 15px;
+            padding: 20px;
             background: var(--gold-bg);
             border: 1px solid #ffe082;
             border-radius: 8px;
             font-weight: 700;
             color: #444;
-            font-size: 18px;
+        }
+
+        .amount-row {
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .amount-text-row {
+            font-size: 15px;
+            font-style: italic;
+            color: #555;
+            margin-top: 8px;
+            font-weight: 500;
         }
 
         .count-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: 10px;
         }
 
         .table-wrapper { 
@@ -130,7 +145,6 @@
 
         tr:hover { background-color: #fff9c4 !important; }
 
-        /* Style cho phân màu nhóm */
         .row-elite { background-color: var(--color-elite) !important; }
         .row-5km { background-color: var(--color-5km) !important; }
         .row-3km { background-color: var(--color-3km) !important; }
@@ -143,7 +157,14 @@
         }
 
         .amount-cell { font-weight: 700; color: #d32f2f; }
-        .gift-cell { font-weight: 600; color: #2e7d32; font-style: italic; }
+        
+        /* CẬP NHẬT: Không in nghiêng, viết hoa hết */
+        .gift-cell { 
+            font-weight: 700; 
+            color: #2e7d32; 
+            font-style: normal; 
+            text-transform: uppercase; 
+        }
 
         .footer-info {
             width: 100%;
@@ -156,11 +177,9 @@
         .footer-info h2 {
             font-size: 18px;
             color: var(--secondary-color);
-            margin-top: 0;
             margin-bottom: 20px;
             text-transform: uppercase;
             text-align: center;
-            width: 100%;
             font-weight: 700;
         }
 
@@ -176,7 +195,7 @@
             th:nth-child(7), td:nth-child(7) { display: none; }
             .footer-grid { flex-direction: column; }
             .footer-divider { display: none; }
-            .summary-box { font-size: 13px; }
+            .amount-row { font-size: 18px; }
         }
     </style>
 </head>
@@ -192,12 +211,17 @@
 
     <div class="status-bar">
         <div id="summary-top" class="summary-box">
-            Tổng số tiền ủng hộ: <span class="total-amount-display" style="color: #d32f2f; margin-left: 10px;">0 VNĐ</span>
+            <div class="amount-row">
+                Tổng số tiền ủng hộ: <span class="total-amount-val" style="color: #d32f2f;">0 VNĐ</span>
+            </div>
+            <div class="amount-text-row">
+                (Bằng chữ: <span class="total-text-display">...</span>)
+            </div>
         </div>
         
         <div class="count-info">
             <div id="count" style="font-weight: bold; color: var(--secondary-color);">Đang kết nối dữ liệu...</div>
-            <div id="update-time" style="color: #666; font-style: italic;"></div>
+            <div id="update-time" style="color: #666; font-style: italic; font-size: 13px;"></div>
         </div>
     </div>
 
@@ -221,7 +245,12 @@
     </div>
 
     <div id="summary-bottom" class="summary-box" style="margin-top: 20px; border-style: dashed;">
-        Tổng số tiền ủng hộ: <span class="total-amount-display" style="color: #d32f2f; margin-left: 10px;">0 VNĐ</span>
+        <div class="amount-row">
+            Tổng số tiền ủng hộ: <span class="total-amount-val" style="color: #d32f2f;">0 VNĐ</span>
+        </div>
+        <div class="amount-text-row">
+            (Bằng chữ: <span class="total-text-display">...</span>)
+        </div>
     </div>
 </div>
 
@@ -244,6 +273,43 @@
 <script>
     const tsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQpMfXvpG3RBMCNXm_m-iP9YjY_uZKLcxdnfRm86mo8hgPBGz5n3-xC3yuyjXrJM3rA1q0DNsYHJ2tx/pub?gid=797207538&single=true&output=tsv';
 
+    function docSoTiengViet(so) {
+        if (so == 0) return "Không đồng";
+        const chuSo = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
+        function doc3So(n, showZero) {
+            let res = "";
+            let tram = Math.floor(n / 100);
+            let chuc = Math.floor((n % 100) / 10);
+            let donVi = n % 10;
+            if (tram > 0 || showZero) res += chuSo[tram] + " trăm ";
+            if (chuc > 1) {
+                res += chuSo[chuc] + " mươi ";
+                if (donVi == 1) res += "mốt";
+                else if (donVi == 5) res += "lăm";
+                else if (donVi > 0) res += chuSo[donVi];
+            } else if (chuc == 1) {
+                res += "mười ";
+                if (donVi == 5) res += "lăm";
+                else if (donVi > 0) res += chuSo[donVi];
+            } else if (donVi > 0) {
+                if (tram > 0 || showZero) res += "lẻ " + chuSo[donVi];
+                else res += chuSo[donVi];
+            }
+            return res;
+        }
+        let units = ["", "nghìn", "triệu", "tỷ"];
+        let res = "";
+        let i = 0;
+        while (so > 0) {
+            let n = so % 1000;
+            if (n > 0) res = doc3So(n, i > 0 && so > 9) + " " + units[i] + " " + res;
+            so = Math.floor(so / 1000);
+            i++;
+        }
+        res = res.trim();
+        return res.charAt(0).toUpperCase() + res.slice(1) + " đồng";
+    }
+
     async function fetchData() {
         try {
             const response = await fetch(tsvUrl);
@@ -251,15 +317,13 @@
             const rows = text.split('\n').map(row => row.split('\t'));
             if (rows.length > 1) renderTable(rows);
         } catch (error) {
-            console.error('Lỗi:', error);
-            document.getElementById('table-body').innerHTML = '<tr><td colspan="7" style="text-align:center;">Lỗi tải dữ liệu.</td></tr>';
+            document.getElementById('table-body').innerHTML = '<tr><td colspan="7">Lỗi kết nối dữ liệu.</td></tr>';
         }
     }
 
     function renderTable(rows) {
         const header = rows[0].map(h => h.toLowerCase().trim());
         let bodyData = rows.slice(1);
-        
         const getIdx = (keywords) => header.findIndex(h => keywords.some(k => h.includes(k)));
 
         const idxName = getIdx(['họ và tên', 'họ tên', 'tên']);
@@ -268,16 +332,14 @@
         const idxPhone = getIdx(['số điện thoại', 'sđt']);
         const idxAmount = getIdx(['số tiền', 'ủng hộ']);
         const idxNote = getIdx(['ghi chú']);
-        // Giả sử có cột phân loại nhóm (Elite, 5km, 3km)
-        const idxGroup = getIdx(['nhóm', 'cự ly', 'loại']);
+        const idxGroup = getIdx(['nhóm', 'cự ly']);
 
         bodyData = bodyData.filter(row => row[idxName] && row[idxName].trim() !== "");
-
         let bodyHtml = '';
         let totalCash = 0;
         let donorCount = 0;
 
-        bodyData.forEach((row, index) => {
+        bodyData.forEach((row) => {
             donorCount++;
             let name = (row[idxName] || '').trim().replace(/^"|"$/g, '');
             let company = (row[idxCompany] || '---').trim().replace(/^"|"$/g, '');
@@ -286,27 +348,19 @@
             let note = (row[idxNote] || '---').trim().replace(/^"|"$/g, '');
             let group = (row[idxGroup] || '').toLowerCase();
 
-            // Xử lý ẩn SĐT
             let phoneRaw = (row[idxPhone] || '').trim().replace(/^"|"$/g, '').replace(/\s/g, '');
             let displayPhone = (phoneRaw !== "" && !phoneRaw.toLowerCase().includes("không")) ? `...${phoneRaw.slice(-4)}` : '---';
 
-            // Tính toán tiền
             let cashValue = parseFloat(amountRaw.replace(/[^0-9]/g, '')) || 0;
             totalCash += cashValue;
 
-            // --- LOGIC HOÁN ĐỔI: Nếu số tiền = 0 thì lấy ghi chú đắp vào ---
-            let finalAmountHtml = '';
-            let finalNoteHtml = '';
+            // Xử lý hiển thị: Nếu là quà tặng thì viết hoa và không in nghiêng
+            let finalAmountHtml = (cashValue > 0) ? 
+                `<span class="amount-cell">${cashValue.toLocaleString('vi-VN')} đ</span>` : 
+                `<span class="gift-cell">${note !== '---' ? note : 'QUÀ TẶNG'}</span>`;
+            
+            let finalNoteHtml = (cashValue > 0) ? note : '';
 
-            if (cashValue > 0) {
-                finalAmountHtml = `<span class="amount-cell">${cashValue.toLocaleString('vi-VN')} đ</span>`;
-                finalNoteHtml = note;
-            } else {
-                finalAmountHtml = `<span class="gift-cell">${note !== '---' ? note : 'Quà tặng'}</span>`;
-                finalNoteHtml = ''; // Ẩn ghi chú ở cột cuối nếu đã đưa sang cột tiền
-            }
-
-            // Phân loại class theo nhóm để đổ màu
             let rowClass = '';
             if (group.includes('elite')) rowClass = 'row-elite';
             else if (group.includes('5km')) rowClass = 'row-5km';
@@ -324,10 +378,9 @@
         });
 
         document.getElementById('table-body').innerHTML = bodyHtml;
-        const formattedTotal = totalCash.toLocaleString('vi-VN') + ' VNĐ';
-        document.querySelectorAll('.total-amount-display').forEach(el => el.innerText = formattedTotal);
+        document.querySelectorAll('.total-amount-val').forEach(el => el.innerText = totalCash.toLocaleString('vi-VN') + ' VNĐ');
+        document.querySelectorAll('.total-text-display').forEach(el => el.innerText = docSoTiengViet(totalCash));
         document.getElementById('count').innerText = `Tổng cộng: ${donorCount} lượt ủng hộ`;
-        
         const now = new Date();
         document.getElementById('update-time').innerText = `Cập nhật: ${now.toLocaleTimeString('vi-VN')} - ${now.toLocaleDateString('vi-VN')}`;
     }
