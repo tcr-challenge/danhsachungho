@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách Mạnh Thường Quân - Giải Chạy Thượng Cát 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #f57c00; 
+            --primary-hover: #ef6c00;
+            --secondary-color: #1a237e; 
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+            --gold-bg: rgba(255, 193, 7, 0.1);
+            
+            --color-elite: #e3f2fd;
+            --color-5km: #e8f5e9;
+            --color-3km: #fff3e0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cover-photo {
+            width: 100%;
+            max-width: 1200px;
+            height: auto;
+            min-height: 200px;
+            background: #ddd;
+            display: block;
+            border-bottom: 5px solid var(--primary-color);
+            object-fit: cover;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: #fff;
+            padding: 30px;
+            box-sizing: border-box;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            line-height: 1.3;
+            font-weight: 800;
+        }
+
+        .header .sub-title {
+            margin-top: 15px;
+            font-size: 16px;
+            color: #555;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .status-bar {
+            display: block;
+            margin-bottom: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        .summary-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            padding: 20px;
+            background: var(--gold-bg);
+            border: 1px solid #ffe082;
+            border-radius: 8px;
+            font-weight: 700;
+            color: #444;
+        }
+
+        .amount-row {
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .amount-text-row {
+            font-size: 15px;
+            font-style: italic;
+            color: #555;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        .count-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .table-wrapper { 
+            overflow-x: auto; 
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        th {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: left;
+            padding: 15px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        tr:hover { background-color: #fff9c4 !important; }
+
+        .row-elite { background-color: var(--color-elite) !important; }
+        .row-5km { background-color: var(--color-5km) !important; }
+        .row-3km { background-color: var(--color-3km) !important; }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .amount-cell { font-weight: 700; color: #d32f2f; }
+        
+        .gift-cell { 
+            font-weight: 700; 
+            color: #2e7d32; 
+            font-style: normal; 
+            text-transform: uppercase; 
+        }
+
+        .footer-info {
+            width: 100%;
+            max-width: 1000px;
+            margin-bottom: 60px;
+            padding: 25px;
+            box-sizing: border-box;
+        }
+
+        .footer-info h2 {
+            font-size: 18px;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .footer-grid { display: flex; align-items: stretch; gap: 20px; }
+        .footer-column { flex: 1; padding: 0 20px; font-size: 14px; line-height: 1.4; color: #444; }
+        .footer-divider { width: 1px; background-color: #ccc; margin: 0 10px; }
+        .footer-info a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
+
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            th:nth-child(4), td:nth-child(4),
+            th:nth-child(5), td:nth-child(5),
+            th:nth-child(7), td:nth-child(7) { display: none; }
+            .footer-grid { flex-direction: column; }
+            .footer-divider { display: none; }
+            .amount-row { font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+<img src="images/banner.jpg" alt="Mạnh Thường Quân" class="cover-photo">
+
+<div class="container">
+    <div class="header">
+        <h1>DANH SÁCH MẠNH THƯỜNG QUÂN ỦNG HỘ<br>GIẢI CHẠY ĐÌNH LÀNG THƯỢNG CÁT 2026</h1>
+        <div class="sub-title">Trân trọng cảm ơn tấm lòng hảo tâm của quý vị</div>
+    </div>
+
+    <div class="status-bar">
+        <div id="summary-top" class="summary-box">
+            <div class="amount-row">
+                Tổng số tiền ủng hộ: <span class="total-amount-val" style="color: #d32f2f;">0 VNĐ</span>
+            </div>
+            <div class="amount-text-row">
+                (Bằng chữ: <span class="total-text-display">...</span>)
+            </div>
+        </div>
+        
+        <div class="count-info">
+            <div id="count" style="font-weight: bold; color: var(--secondary-color);">Đang kết nối dữ liệu...</div>
+            <div id="update-time" style="color: #666; font-style: italic; font-size: 13px;"></div>
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        <table id="donor-table">
+            <thead>
+                <tr>
+                    <th style="width: 40px;">STT</th>
+                    <th>Họ và Tên</th>
+                    <th>Clb/Công ty/Cá nhân</th>
+                    <th>Địa chỉ</th>
+                    <th>Số điện thoại</th>
+                    <th>Số tiền ủng hộ</th>
+                    <th>Ghi chú</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <tr><td colspan="7" class="loading">Đang tải danh sách mạnh thường quân...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="summary-bottom" class="summary-box" style="margin-top: 20px; border-style: dashed;">
+        <div class="amount-row">
+            Tổng số tiền ủng hộ: <span class="total-amount-val" style="color: #d32f2f;">0 VNĐ</span>
+        </div>
+        <div class="amount-text-row">
+            (Bằng chữ: <span class="total-text-display">...</span>)
+        </div>
+    </div>
+</div>
+
+<div class="footer-info">
+    <h2>THÔNG TIN LIÊN HỆ</h2>
+    <div class="footer-grid">
+        <div class="footer-column">
+            <p><strong>BAN TỔ CHỨC GIẢI CHẠY</strong></p>
+            <p>Ông <strong>Nguyễn Anh Tuấn:</strong> 0968 814 606 (Trưởng BTC - Chủ nhiệm TCR)</p>
+            <p>Facebook BTC: <a href="https://vnshort.com/WL5A" target="_blank">@ThuongCatRunners - TCR</a></p>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-column">
+            <p><strong>LỄ HỘI TRUYỀN THỐNG ĐÌNH LÀNG THƯỢNG CÁT 2026</strong></p>
+            <p>Fanpage: <a href="https://web.facebook.com/thuongcatbactuliemhanoi" target="_blank">Làng bên sông</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ANH THAY DÃY SỐ GID MỚI VÀO ĐÂY
+    const tsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQpMfXvpG3RBMCNXm_m-iP9YjY_uZKLcxdnfRm86mo8hgPBGz5n3-xC3yuyjXrJM3rA1q0DNsYHJ2tx/pub?gid=797207538&single=true&output=tsv';
+
+    function docSoTiengViet(so) {
+        if (so == 0) return "Không đồng";
+        const chuSo = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
+        function doc3So(n, showZero, isFirstGroup) {
+            let res = "";
+            let tram = Math.floor(n / 100);
+            let chuc = Math.floor((n % 100) / 10);
+            let donVi = n % 10;
+            if (tram > 0) res += chuSo[tram] + " trăm ";
+            else if (showZero && !isFirstGroup) res += "không trăm ";
+            if (chuc > 1) {
+                res += chuSo[chuc] + " mươi ";
+                if (donVi == 1) res += "mốt";
+                else if (donVi == 5) res += "lăm";
+                else if (donVi > 0) res += chuSo[donVi];
+            } else if (chuc == 1) {
+                res += "mười ";
+                if (donVi == 5) res += "lăm";
+                else if (donVi > 0) res += chuSo[donVi];
+            } else if (donVi > 0) {
+                if (tram > 0 || (showZero && !isFirstGroup)) res += "lẻ " + chuSo[donVi];
+                else res += chuSo[donVi];
+            }
+            return res;
+        }
+        let units = ["", "nghìn", "triệu", "tỷ"];
+        let res = "";
+        let tempSo = so;
+        let blocks = [];
+        while (tempSo > 0) {
+            blocks.push(tempSo % 1000);
+            tempSo = Math.floor(tempSo / 1000);
+        }
+        for (let i = blocks.length - 1; i >= 0; i--) {
+            let n = blocks[i];
+            if (n > 0) {
+                let isFirstGroup = (i === blocks.length - 1);
+                res += doc3So(n, true, isFirstGroup) + " " + units[i] + " ";
+            }
+        }
+        res = res.trim().replace(/\s+/g, ' ');
+        return res.charAt(0).toUpperCase() + res.slice(1) + " đồng";
+    }
+
+    async function fetchData() {
+        try {
+            const response = await fetch(tsvUrl);
+            const text = await response.text();
+            const rows = text.split('\n').map(row => row.split('\t'));
+            if (rows.length > 1) renderTable(rows);
+        } catch (error) {
+            document.getElementById('table-body').innerHTML = '<tr><td colspan="7">Lỗi kết nối dữ liệu.</td></tr>';
+        }
+    }
+
+    function renderTable(rows) {
+        const header = rows[0].map(h => h.toLowerCase().trim());
+        let bodyData = rows.slice(1);
+        const getIdx = (keywords) => header.findIndex(h => keywords.some(k => h.includes(k)));
+
+        const idxTitle = getIdx(['danh xưng', 'ông/bà', 'quý vị']); // Tìm cột danh xưng
+        const idxName = getIdx(['họ và tên', 'họ tên', 'tên']);
+        const idxCompany = getIdx(['công ty', 'clb', 'cá nhân']);
+        const idxAddress = getIdx(['địa chỉ']);
+        const idxPhone = getIdx(['số điện thoại', 'sđt']);
+        const idxAmount = getIdx(['số tiền', 'ủng hộ']);
+        const idxNote = getIdx(['ghi chú']);
+        const idxGroup = getIdx(['nhóm', 'cự ly']);
+
+        bodyData = bodyData.filter(row => row[idxName] && row[idxName].trim() !== "");
+        let bodyHtml = '';
+        let totalCash = 0;
+        let donorCount = 0;
+
+        bodyData.forEach((row) => {
+            donorCount++;
+            
+            // XỬ LÝ DANH XƯNG VÀ HỌ TÊN
+            let rawTitle = (row[idxTitle] || '').trim().replace(/^"|"$/g, '');
+            let rawName = (row[idxName] || '').trim().replace(/^"|"$/g, '');
+            
+            // Nếu là "Khác" thì để trống, còn lại thì lấy danh xưng
+            let displayTitle = (rawTitle.toLowerCase() === 'khác') ? '' : rawTitle;
+            let fullName = displayTitle ? `${displayTitle} ${rawName}` : rawName;
+
+            let company = (row[idxCompany] || '---').trim().replace(/^"|"$/g, '');
+            let address = (row[idxAddress] || '---').trim().replace(/^"|"$/g, '');
+            let amountRaw = (row[idxAmount] || '0').trim().replace(/^"|"$/g, '');
+            let note = (row[idxNote] || '---').trim().replace(/^"|"$/g, '');
+            let group = (row[idxGroup] || '').toLowerCase();
+
+            let phoneRaw = (row[idxPhone] || '').trim().replace(/^"|"$/g, '').replace(/\s/g, '');
+            let displayPhone = (phoneRaw !== "" && !phoneRaw.toLowerCase().includes("không")) ? `...${phoneRaw.slice(-4)}` : '---';
+
+            let cashValue = parseFloat(amountRaw.replace(/[^0-9]/g, '')) || 0;
+            totalCash += cashValue;
+
+            let finalAmountHtml = (cashValue > 0) ? 
+                `<span class="amount-cell">${cashValue.toLocaleString('vi-VN')} đ</span>` : 
+                `<span class="gift-cell">${note !== '---' ? note : 'QUÀ TẶNG'}</span>`;
+            
+            let finalNoteHtml = (cashValue > 0) ? note : '';
+
+            let rowClass = '';
+            if (group.includes('elite')) rowClass = 'row-elite';
+            else if (group.includes('5km')) rowClass = 'row-5km';
+            else if (group.includes('3km')) rowClass = 'row-3km';
+
+            bodyHtml += `<tr class="${rowClass}">
+                <td>${donorCount}</td>
+                <td style="font-weight:600; color:var(--secondary-color);">${fullName}</td>
+                <td>${company}</td>
+                <td>${address}</td>
+                <td style="font-family: monospace;">${displayPhone}</td>
+                <td>${finalAmountHtml}</td>
+                <td style="font-style: italic; color: #666;">${finalNoteHtml}</td>
+            </tr>`;
+        });
+
+        document.getElementById('table-body').innerHTML = bodyHtml;
+        document.querySelectorAll('.total-amount-val').forEach(el => el.innerText = totalCash.toLocaleString('vi-VN') + ' VNĐ');
+        document.querySelectorAll('.total-text-display').forEach(el => el.innerText = docSoTiengViet(totalCash));
+        document.getElementById('count').innerText = `Tổng cộng: ${donorCount} lượt ủng hộ`;
+        const now = new Date();
+        document.getElementById('update-time').innerText = `Cập nhật: ${now.toLocaleTimeString('vi-VN')} - ${now.toLocaleDateString('vi-VN')}`;
+    }
+
+    fetchData();
+    setInterval(fetchData, 60000); 
+</script>
+
+</body>
+</html>
