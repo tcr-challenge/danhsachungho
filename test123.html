@@ -165,17 +165,16 @@
             text-transform: uppercase; 
         }
 
-        /* Style cho cột Họ và tên chia đôi - Đã cập nhật theo yêu cầu */
         .name-container {
             display: flex;
             align-items: center;
-            gap: 4px; /* Khoảng cách nhỏ giữa danh xưng và tên */
+            gap: 4px;
         }
         .prefix-box {
-            min-width: 40px; /* Độ rộng vừa đủ cho Ông/Bà/Anh/Chị */
-            font-weight: 600; /* Giống họ tên */
-            color: var(--secondary-color); /* Giống họ tên */
-            font-size: 14px; /* Giống họ tên */
+            min-width: 40px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            font-size: 14px;
         }
         .name-box {
             font-weight: 600;
@@ -288,7 +287,8 @@
 </div>
 
 <script>
-    const tsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQpMfXvpG3RBMCNXm_m-iP9YjY_uZKLcxdnfRm86mo8hgPBGz5n3-xC3yuyjXrJM3rA1q0DNsYHJ2tx/pub?gid=1224670106&single=true&output=tsv';
+    // CẬP NHẬT GID MỚI: 797207538
+    const tsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQpMfXvpG3RBMCNXm_m-iP9YjY_uZKLcxdnfRm86mo8hgPBGz5n3-xC3yuyjXrJM3rA1q0DNsYHJ2tx/pub?gid=797207538&single=true&output=tsv';
 
     function docSoTiengViet(so) {
         if (so == 0) return "Không đồng";
