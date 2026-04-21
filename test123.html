@@ -324,7 +324,7 @@
 </div>
 
 <script>
-    const tsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQpMfXvpG3RBMCNXm_m-iP9YjY_uZKLcxdnfRm86mo8hgPBGz5n3-xC3yuyjXrJM3rA1q0DNsYHJ2tx/pub?gid=797207538&single=true&output=tsv';
+    const tsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQpMfXvpG3RBMCNXm_m-iP9YjY_uZKLcxdnfRm86mo8hgPBGz5n3-xC3yuyjXrJM3rA1q0DNsYHJ2tx/pub?gid=648421086&single=true&output=tsv';
 
     function docSoTiengViet(so) {
         if (so == 0) return "Không đồng";
@@ -386,9 +386,9 @@
         let bodyData = rows.slice(1);
         const getIdx = (keywords) => header.findIndex(h => keywords.some(k => h.includes(k)));
 
-        const idxTitle = getIdx(['danh xưng', 'ông/bà', 'quý vị']);
+        const idxTitle = getIdx(['danh xưng', 'ông/bà', 'quý vị', 'xưng']);
         const idxName = getIdx(['họ và tên', 'họ tên', 'tên']);
-        const idxCompany = getIdx(['công ty', 'clb', 'cá nhân', 'đơn vị']);
+        const idxCompany = getIdx(['công ty', 'clb', 'cá nhân', 'đơn vị', 'doanh nghiệp']);
         const idxAddress = getIdx(['địa chỉ']);
         const idxPhone = getIdx(['số điện thoại', 'sđt']);
         const idxAmount = getIdx(['số tiền', 'ủng hộ', 'giá trị']);
