@@ -27,7 +27,6 @@
             flex-direction: column;
             align-items: center;
             background-color: var(--bg-color);
-            /* Cập nhật link ảnh họa tiết mây cổ mới */
             background-image: url('https://www.transparenttextures.com/patterns/cloudy-day.png'), url('https://img.freepik.com/free-vector/traditional-vietnamese-cloud-pattern-background_1048-13002.jpg?semt=ais_hybrid');
             background-blend-mode: overlay;
             background-repeat: repeat;
@@ -141,15 +140,15 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 1000px;
             background-color: white;
+            table-layout: auto; /* Để bảng tự co dãn theo nội dung */
         }
 
         th {
             background-color: var(--secondary-color);
             color: white;
             text-align: left;
-            padding: 18px;
+            padding: 12px 10px;
             font-weight: 600;
             white-space: nowrap;
             text-transform: uppercase;
@@ -158,11 +157,21 @@
         }
 
         td {
-            padding: 14px 18px;
+            padding: 10px;
             border-bottom: 1px solid #eee;
             font-size: 14px;
-            line-height: 1.5;
+            line-height: 1.4;
+            white-space: nowrap; /* Mặc định không cho xuống dòng */
         }
+
+        /* Tinh chỉnh cột cụ thể */
+        .col-stt { width: 1%; text-align: center; } /* Co nhỏ nhất có thể */
+        .col-name { white-space: normal; min-width: 180px; } /* Tên có thể xuống dòng nếu quá dài */
+        .col-company { white-space: normal; min-width: 150px; }
+        .col-address { white-space: nowrap; } /* Tuyệt đối không xuống dòng địa chỉ */
+        .col-phone { font-family: monospace; }
+        .col-amount { font-weight: 700; color: #d32f2f; white-space: nowrap; }
+        .col-note { font-style: italic; color: #666; white-space: normal; min-width: 150px; }
 
         tr:last-child td { border-bottom: none; }
         tr:hover { background-color: rgba(255, 249, 196, 0.7) !important; }
@@ -179,15 +188,11 @@
             font-size: 16px;
         }
 
-        .amount-cell { font-weight: 700; color: #d32f2f; font-size: 15px; }
-        
         .gift-cell { 
             font-weight: 700; 
             color: #2e7d32; 
-            font-style: normal; 
             text-transform: uppercase; 
             font-size: 13px;
-            letter-spacing: 0.3px;
         }
 
         .name-container {
@@ -196,15 +201,13 @@
             gap: 5px;
         }
         .prefix-box {
-            min-width: 45px;
+            min-width: 35px;
             font-weight: 600;
             color: var(--secondary-color);
-            font-size: 14px;
         }
         .name-box {
             font-weight: 600;
             color: var(--secondary-color);
-            font-size: 14px;
         }
 
         .footer-info {
@@ -225,27 +228,20 @@
             text-transform: uppercase;
             text-align: center;
             font-weight: 700;
-            letter-spacing: 1px;
         }
 
         .footer-grid { display: flex; align-items: stretch; gap: 30px; }
-        .footer-column { flex: 1; padding: 0 10px; font-size: 15px; line-height: 1.6; color: #444; }
-        .footer-divider { width: 2px; background-color: #d0d0d0; margin: 0 10px; }
-        .footer-info a { color: var(--primary-color); text-decoration: none; font-weight: 600; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
-        .footer-info a:hover { border-color: var(--primary-color); }
+        .footer-column { flex: 1; font-size: 15px; line-height: 1.6; color: #444; }
+        .footer-divider { width: 2px; background-color: #d0d0d0; }
+        .footer-info a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
 
         @media (max-width: 768px) {
-            .container { padding: 20px; }
-            .header h1 { font-size: 22px; }
+            .container { padding: 15px; }
             th:nth-child(4), td:nth-child(4),
             th:nth-child(5), td:nth-child(5),
             th:nth-child(7), td:nth-child(7) { display: none; }
-            .footer-grid { flex-direction: column; gap: 20px; }
+            .footer-grid { flex-direction: column; }
             .footer-divider { display: none; }
-            .amount-row { font-size: 19px; }
-            .prefix-box { min-width: 40px; font-size: 13px; }
-            .name-box { font-size: 13px; }
-            table { min-width: 100%; }
         }
     </style>
 </head>
@@ -279,13 +275,13 @@
         <table id="donor-table">
             <thead>
                 <tr>
-                    <th style="width: 45px;">STT</th>
-                    <th>Họ và Tên</th>
-                    <th>Clb/Công ty/Cá nhân</th>
-                    <th>Địa chỉ</th>
-                    <th>Số điện thoại</th>
-                    <th>Số tiền ủng hộ</th>
-                    <th>Ghi chú</th>
+                    <th class="col-stt">STT</th>
+                    <th class="col-name">Họ và Tên</th>
+                    <th class="col-company">Clb/Công ty/Cá nhân</th>
+                    <th class="col-address">Địa chỉ</th>
+                    <th class="col-phone">Số điện thoại</th>
+                    <th class="col-amount">Số tiền</th>
+                    <th class="col-note">Ghi chú</th>
                 </tr>
             </thead>
             <tbody id="table-body">
@@ -402,48 +398,42 @@
 
         bodyData.forEach((row) => {
             donorCount++;
-            
             let rawTitle = (row[idxTitle] || '').trim().replace(/^"|"$/g, '');
             let rawName = (row[idxName] || '').trim().replace(/^"|"$/g, '');
-            
             let displayTitle = (rawTitle.toLowerCase() === 'khác') ? '' : rawTitle;
-
             let company = (row[idxCompany] || '---').trim().replace(/^"|"$/g, '');
             let address = (row[idxAddress] || '---').trim().replace(/^"|"$/g, '');
             let amountRaw = (row[idxAmount] || '0').trim().replace(/^"|"$/g, '');
             let note = (row[idxNote] || '---').trim().replace(/^"|"$/g, '');
             let group = (row[idxGroup] || '').toLowerCase();
-
             let phoneRaw = (row[idxPhone] || '').trim().replace(/^"|"$/g, '').replace(/\s/g, '');
             let displayPhone = (phoneRaw !== "" && !phoneRaw.toLowerCase().includes("không")) ? `...${phoneRaw.slice(-4)}` : '---';
-
             let cashValue = parseFloat(amountRaw.replace(/[^0-9]/g, '')) || 0;
             totalCash += cashValue;
 
             let finalAmountHtml = (cashValue > 0) ? 
-                `<span class="amount-cell">${cashValue.toLocaleString('vi-VN')} đ</span>` : 
+                `<span class="col-amount">${cashValue.toLocaleString('vi-VN')} đ</span>` : 
                 `<span class="gift-cell">${note !== '---' ? note : 'QUÀ TẶNG'}</span>`;
             
             let finalNoteHtml = (cashValue > 0) ? note : '';
-
             let rowClass = '';
             if (group.includes('elite')) rowClass = 'row-elite';
             else if (group.includes('5km')) rowClass = 'row-5km';
             else if (group.includes('3km')) rowClass = 'row-3km';
 
             bodyHtml += `<tr class="${rowClass}">
-                <td>${donorCount}</td>
-                <td>
+                <td class="col-stt">${donorCount}</td>
+                <td class="col-name">
                     <div class="name-container">
                         <div class="prefix-box">${displayTitle}</div>
                         <div class="name-box">${rawName}</div>
                     </div>
                 </td>
-                <td>${company}</td>
-                <td>${address}</td>
-                <td style="font-family: monospace;">${displayPhone}</td>
+                <td class="col-company">${company}</td>
+                <td class="col-address">${address}</td>
+                <td class="col-phone">${displayPhone}</td>
                 <td>${finalAmountHtml}</td>
-                <td style="font-style: italic; color: #666;">${finalNoteHtml}</td>
+                <td class="col-note">${finalNoteHtml}</td>
             </tr>`;
         });
 
