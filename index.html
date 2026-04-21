@@ -141,7 +141,7 @@
             width: 100%;
             border-collapse: collapse;
             background-color: white;
-            table-layout: auto; /* Để bảng tự co dãn theo nội dung */
+            table-layout: auto;
         }
 
         th {
@@ -154,6 +154,7 @@
             text-transform: uppercase;
             font-size: 13px;
             letter-spacing: 0.5px;
+            font-family: 'Inter', sans-serif;
         }
 
         td {
@@ -161,15 +162,16 @@
             border-bottom: 1px solid #eee;
             font-size: 14px;
             line-height: 1.4;
-            white-space: nowrap; /* Mặc định không cho xuống dòng */
+            white-space: nowrap;
+            font-family: 'Inter', sans-serif; /* Đảm bảo tất cả các ô dùng chung font */
         }
 
         /* Tinh chỉnh cột cụ thể */
-        .col-stt { width: 1%; text-align: center; } /* Co nhỏ nhất có thể */
-        .col-name { white-space: normal; min-width: 180px; } /* Tên có thể xuống dòng nếu quá dài */
+        .col-stt { width: 1%; text-align: center; font-weight: 600; }
+        .col-name { white-space: normal; min-width: 180px; }
         .col-company { white-space: normal; min-width: 150px; }
-        .col-address { white-space: nowrap; } /* Tuyệt đối không xuống dòng địa chỉ */
-        .col-phone { font-family: monospace; }
+        .col-address { white-space: nowrap; }
+        .col-phone { letter-spacing: 0.5px; } /* Giữ khoảng cách số cho dễ đọc nhưng vẫn dùng font Inter */
         .col-amount { font-weight: 700; color: #d32f2f; white-space: nowrap; }
         .col-note { font-style: italic; color: #666; white-space: normal; min-width: 150px; }
 
