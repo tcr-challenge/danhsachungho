@@ -8,132 +8,240 @@
     <style>
         :root {
             --primary-color: #d32f2f; 
+            --primary-hover: #b71c1c;
             --secondary-color: #1a237e; 
             --bg-color: #fdfaf5; 
             --text-color: #333;
             --gold-bg: rgba(255, 193, 7, 0.15);
+            
+            --color-elite: rgba(227, 242, 253, 0.6);
+            --color-5km: rgba(232, 245, 233, 0.6);
+            --color-3km: rgba(255, 243, 224, 0.6);
         }
 
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
             display: flex;
             flex-direction: column;
             align-items: center;
+            background-color: var(--bg-color);
+            background-image: url('https://www.transparenttextures.com/patterns/cloudy-day.png'), url('https://img.freepik.com/free-vector/traditional-vietnamese-cloud-pattern-background_1048-13002.jpg?semt=ais_hybrid');
+            background-blend-mode: overlay;
+            background-repeat: repeat;
+            background-position: center;
+            background-attachment: fixed; 
+            background-size: 600px; 
+            color: var(--text-color);
         }
 
         .cover-photo {
             width: 100%;
             max-width: 1200px;
             height: auto;
+            min-height: 200px;
+            background: #ddd;
+            display: block;
             border-bottom: 5px solid var(--primary-color);
+            object-fit: cover;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .container {
             width: 100%;
             max-width: 1200px;
-            background: rgba(255, 255, 255, 0.98); 
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.96); 
+            padding: 30px;
             box-sizing: border-box;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+            border: 1px solid #e0e0e0;
+            position: relative; 
         }
 
-        .header { text-align: center; margin-bottom: 20px; }
-        .header h1 { 
-            font-size: 22px; 
-            color: var(--secondary-color); 
-            text-transform: uppercase; 
-            font-weight: 800;
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
             margin: 0;
+            font-size: 28px;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            line-height: 1.3;
+            font-weight: 800;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1); 
+        }
+
+        .header .sub-title {
+            margin-top: 15px;
+            font-size: 17px;
+            color: #555;
+            line-height: 1.5;
+            font-weight: 500;
+            font-style: italic;
+        }
+
+        .status-bar {
+            display: block;
+            margin-bottom: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #e0e0e0;
         }
 
         .summary-box {
-            background: var(--gold-bg);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             margin-bottom: 20px;
+            padding: 25px;
+            background: var(--gold-bg);
             border: 1px solid #ffe082;
-        }
-
-        .total-amount-val {
-            font-size: 22px;
+            border-radius: 10px;
             font-weight: 700;
-            color: var(--primary-color);
-            display: block;
+            color: #444;
+            box-shadow: inset 0 0 10px rgba(255, 193, 7, 0.2);
         }
 
-        /* PC Table Styles */
-        .table-wrapper { overflow-x: auto; width: 100%; }
-        table { width: 100%; border-collapse: collapse; background: white; }
-        th { background: var(--secondary-color); color: white; padding: 12px; font-size: 13px; text-align: left; }
-        td { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; }
+        .amount-row {
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-        .col-stt { width: 40px; text-align: center; }
-        .col-amount { font-weight: 700; color: var(--primary-color); }
-        .gift-cell { font-weight: 700; color: #2e7d32; }
+        .amount-text-row {
+            font-size: 16px;
+            font-style: italic;
+            color: #666;
+            margin-top: 10px;
+            font-weight: 500;
+        }
 
-        /* Responsive Mobile - Quan trọng nhất */
-        @media (max-width: 768px) {
-            .header h1 { font-size: 18px; }
-            
-            /* Biến bảng thành dạng danh sách cuộn dọc */
-            table, thead, tbody, th, td, tr { display: block; }
-            
-            thead tr { position: absolute; top: -9999px; left: -9999px; }
-            
-            tr {
-                margin-bottom: 10px;
-                border: 1px solid #ddd;
-                border-radius: 8px;
-                padding: 10px;
-                background: #fff;
-            }
+        .count-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
 
-            td {
-                border: none;
-                padding: 4px 0 4px 110px;
-                position: relative;
-                min-height: 24px;
-                white-space: normal;
-                text-align: right;
-            }
+        .table-wrapper { 
+            overflow-x: auto; 
+            margin-bottom: 25px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
 
-            td:before {
-                position: absolute;
-                left: 10px;
-                width: 100px;
-                padding-right: 10px;
-                white-space: nowrap;
-                text-align: left;
-                font-weight: bold;
-                color: var(--secondary-color);
-                content: attr(data-label);
-                font-size: 12px;
-            }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            table-layout: auto;
+        }
 
-            /* Ẩn các cột không quan trọng trên điện thoại để đỡ rối */
-            td[data-label="Địa chỉ"], 
-            td[data-label="Số điện thoại"] { display: none; }
+        th {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: left;
+            padding: 12px 10px;
+            font-weight: 600;
+            white-space: nowrap;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
 
-            /* Ưu tiên hiển thị Họ tên và Số tiền to rõ */
-            td[data-label="Họ và Tên"] { font-size: 16px; color: var(--secondary-color); }
-            td[data-label="Số tiền"] { font-size: 16px; }
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            line-height: 1.4;
+            white-space: nowrap;
+        }
+
+        .col-stt { width: 1%; text-align: center; }
+        .col-name { white-space: normal; min-width: 180px; }
+        .col-company { white-space: normal; min-width: 150px; }
+        .col-address { white-space: nowrap; }
+        .col-phone { font-family: monospace; }
+        .col-amount { font-weight: 700; color: #d32f2f; white-space: nowrap; }
+        .col-note { font-style: italic; color: #666; white-space: normal; min-width: 150px; }
+
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background-color: rgba(255, 249, 196, 0.7) !important; }
+
+        .row-elite { background-color: var(--color-elite) !important; }
+        .row-5km { background-color: var(--color-5km) !important; }
+        .row-3km { background-color: var(--color-3km) !important; }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 16px;
+        }
+
+        .gift-cell { 
+            font-weight: 700; 
+            color: #2e7d32; 
+            text-transform: uppercase; 
+            font-size: 13px;
+        }
+
+        .name-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .prefix-box {
+            min-width: 35px;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        .name-box {
+            font-weight: 600;
+            color: var(--secondary-color);
         }
 
         .footer-info {
             width: 100%;
-            max-width: 1200px;
-            padding: 20px;
+            max-width: 1000px;
+            margin-bottom: 70px;
+            padding: 30px;
             box-sizing: border-box;
-            background: #f1f1f1;
-            font-size: 14px;
-            line-height: 1.6;
+            background: rgba(255, 255, 255, 0.85); 
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
         }
-        .footer-info a { color: var(--primary-color); text-decoration: none; font-weight: bold; }
+
+        .footer-info h2 {
+            font-size: 20px;
+            color: var(--secondary-color);
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .footer-grid { display: flex; align-items: stretch; gap: 30px; }
+        .footer-column { flex: 1; font-size: 15px; line-height: 1.6; color: #444; }
+        .footer-divider { width: 2px; background-color: #d0d0d0; }
+        .footer-info a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
+
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            th:nth-child(4), td:nth-child(4),
+            th:nth-child(5), td:nth-child(5),
+            th:nth-child(7), td:nth-child(7) { display: none; }
+            .footer-grid { flex-direction: column; }
+            .footer-divider { display: none; }
+        }
     </style>
 </head>
 <body>
@@ -142,104 +250,203 @@
 
 <div class="container">
     <div class="header">
-        <h1>DANH SÁCH MẠNH THƯỜNG QUÂN<br>GIẢI CHẠY THƯỢNG CÁT 2026</h1>
+        <h1>DANH SÁCH MẠNH THƯỜNG QUÂN ỦNG HỘ<br>GIẢI CHẠY ĐÌNH LÀNG THƯỢNG CÁT 2026</h1>
+        <div class="sub-title">Trân trọng cảm ơn tấm lòng hảo tâm của quý vị</div>
     </div>
 
-    <div class="summary-box">
-        Tổng số tiền: <span class="total-amount-val">0 VNĐ</span>
-        <div id="count" style="font-size: 13px; margin-top: 5px; color: #666;">Đang cập nhật...</div>
+    <div class="status-bar">
+        <div id="summary-top" class="summary-box">
+            <div class="amount-row">
+                Tổng số tiền ủng hộ: <span class="total-amount-val" style="color: #d32f2f;">0 VNĐ</span>
+            </div>
+            <div class="amount-text-row">
+                (Bằng chữ: <span class="total-text-display">...</span>)
+            </div>
+        </div>
+        
+        <div class="count-info">
+            <div id="count" style="font-weight: bold; color: var(--secondary-color);">Đang kết nối dữ liệu...</div>
+            <div id="update-time" style="color: #666; font-style: italic; font-size: 13px;"></div>
+        </div>
     </div>
 
     <div class="table-wrapper">
-        <table>
+        <table id="donor-table">
             <thead>
                 <tr>
-                    <th>STT</th>
-                    <th>Họ và Tên</th>
-                    <th>Đơn vị</th>
-                    <th>Địa chỉ</th>
-                    <th>Số điện thoại</th>
-                    <th>Số tiền</th>
-                    <th>Ghi chú</th>
+                    <th class="col-stt">STT</th>
+                    <th class="col-name">Họ và Tên</th>
+                    <th class="col-company">Clb/Công ty/Cá nhân</th>
+                    <th class="col-address">Địa chỉ</th>
+                    <th class="col-phone">Số điện thoại</th>
+                    <th class="col-amount">Số tiền</th>
+                    <th class="col-note">Ghi chú</th>
                 </tr>
             </thead>
             <tbody id="table-body">
-                </tbody>
+                <tr><td colspan="7" class="loading">Đang tải danh sách mạnh thường quân...</td></tr>
+            </tbody>
         </table>
+    </div>
+
+    <div id="summary-bottom" class="summary-box" style="margin-top: 25px; border-style: dashed;">
+        <div class="amount-row">
+            Tổng số tiền ủng hộ: <span class="total-amount-val" style="color: #d32f2f;">0 VNĐ</span>
+        </div>
+        <div class="amount-text-row">
+            (Bằng chữ: <span class="total-text-display">...</span>)
+        </div>
     </div>
 </div>
 
 <div class="footer-info">
-    <strong>LIÊN HỆ BTC:</strong><br>
-    Ông Nguyễn Anh Tuấn: 0968 814 606<br>
-    Zalo: <a href="https://vnshort.com/vy6J">vnshort.com/vy6J</a>
+    <h2>THÔNG TIN LIÊN HỆ</h2>
+    <div class="footer-grid">
+        <div class="footer-column">
+            <p><strong>BAN TỔ CHỨC GIẢI CHẠY</strong></p>
+            <p>Ông <strong>Nguyễn Anh Tuấn:</strong> 0968 814 606 (Trưởng BTC - Chủ nhiệm TCR)</p>
+            <p>Facebook BTC: <a href="https://vnshort.com/WL5A" target="_blank">@ThuongCatRunners - TCR</a></p>
+            <p>Nhóm chạy bộ TCR: <a href="https://web.facebook.com/groups/thuongcatrunners " target="_blank">Thượng Cát Runners</a></p>
+            <p>Nhóm Zalo giải chạy: <a href="https://vnshort.com/vy6J" target="_blank">vnshort.com/vy6J</a></p>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-column">
+            <p><strong>LỄ HỘI TRUYỀN THỐNG ĐÌNH LÀNG THƯỢNG CÁT 2026</strong></p>
+            <p>Fanpage: <a href="https://web.facebook.com/thuongcatbactuliemhanoi" target="_blank">Làng bên sông</a> và <a href="https://web.facebook.com/dinhthuongcat" target="_blank">Đình làng Thượng Cát</a></p>
+            <p>Bản đồ: <a href="https://maps.app.goo.gl/JDyHh4N3E7R8cq1F7" target="_blank">Xem trên Google Maps</a></p>
+        </div>
+    </div>
 </div>
 
 <script>
     const tsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQpMfXvpG3RBMCNXm_m-iP9YjY_uZKLcxdnfRm86mo8hgPBGz5n3-xC3yuyjXrJM3rA1q0DNsYHJ2tx/pub?gid=648421086&single=true&output=tsv';
+
+    function docSoTiengViet(so) {
+        if (so == 0) return "Không đồng";
+        const chuSo = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
+        function doc3So(n, showZero, isFirstGroup) {
+            let res = "";
+            let tram = Math.floor(n / 100);
+            let chuc = Math.floor((n % 100) / 10);
+            let donVi = n % 10;
+            if (tram > 0) res += chuSo[tram] + " trăm ";
+            else if (showZero && !isFirstGroup) res += "không trăm ";
+            if (chuc > 1) {
+                res += chuSo[chuc] + " mươi ";
+                if (donVi == 1) res += "mốt";
+                else if (donVi == 5) res += "lăm";
+                else if (donVi > 0) res += chuSo[donVi];
+            } else if (chuc == 1) {
+                res += "mười ";
+                if (donVi == 5) res += "lăm";
+                else if (donVi > 0) res += chuSo[donVi];
+            } else if (donVi > 0) {
+                if (tram > 0 || (showZero && !isFirstGroup)) res += "lẻ " + chuSo[donVi];
+                else res += chuSo[donVi];
+            }
+            return res;
+        }
+        let units = ["", "nghìn", "triệu", "tỷ"];
+        let res = "";
+        let tempSo = so;
+        let blocks = [];
+        while (tempSo > 0) {
+            blocks.push(tempSo % 1000);
+            tempSo = Math.floor(tempSo / 1000);
+        }
+        for (let i = blocks.length - 1; i >= 0; i--) {
+            let n = blocks[i];
+            if (n > 0) {
+                let isFirstGroup = (i === blocks.length - 1);
+                res += doc3So(n, true, isFirstGroup) + " " + units[i] + " ";
+            }
+        }
+        res = res.trim().replace(/\s+/g, ' ');
+        return res.charAt(0).toUpperCase() + res.slice(1) + " đồng";
+    }
 
     async function fetchData() {
         try {
             const response = await fetch(tsvUrl);
             const text = await response.text();
             const rows = text.split('\n').map(row => row.split('\t'));
-            renderTable(rows);
-        } catch (e) {
-            console.error(e);
+            if (rows.length > 1) renderTable(rows);
+        } catch (error) {
+            document.getElementById('table-body').innerHTML = '<tr><td colspan="7" class="loading">Lỗi kết nối dữ liệu.</td></tr>';
         }
     }
 
     function renderTable(rows) {
         const header = rows[0].map(h => h.toLowerCase().trim());
-        const getIdx = (ks) => header.findIndex(h => ks.some(k => h.includes(k)));
-        
-        const idxTitle = getIdx(['danh xưng']);
-        const idxName = getIdx(['họ và tên']);
-        const idxCompany = getIdx(['công ty', 'clb']);
+        let bodyData = rows.slice(1);
+        const getIdx = (keywords) => header.findIndex(h => keywords.some(k => h.includes(k)));
+
+        const idxTitle = getIdx(['danh xưng', 'ông/bà', 'quý vị', 'xưng']);
+        const idxName = getIdx(['họ và tên', 'họ tên', 'tên']);
+        const idxCompany = getIdx(['công ty', 'clb', 'cá nhân', 'đơn vị', 'doanh nghiệp']);
         const idxAddress = getIdx(['địa chỉ']);
-        const idxPhone = getIdx(['số điện thoại']);
-        const idxAmount = getIdx(['số tiền']);
+        const idxPhone = getIdx(['số điện thoại', 'sđt']);
+        const idxAmount = getIdx(['số tiền', 'ủng hộ', 'giá trị']);
         const idxNote = getIdx(['ghi chú']);
+        const idxGroup = getIdx(['nhóm', 'cự ly']);
 
-        let html = '';
-        let total = 0;
-        let count = 0;
+        bodyData = bodyData.filter(row => row[idxName] && row[idxName].trim() !== "");
+        let bodyHtml = '';
+        let totalCash = 0;
+        let donorCount = 0;
 
-        rows.slice(1).forEach(row => {
-            if (!row[idxName] || row[idxName].trim() === "") return;
-            count++;
-            let name = row[idxName].trim();
-            let title = (row[idxTitle] || '').trim();
-            if (title.toLowerCase() === 'khác') title = '';
+        bodyData.forEach((row) => {
+            donorCount++;
+            let rawTitle = (row[idxTitle] || '').trim().replace(/^"|"$/g, '');
+            let rawName = (row[idxName] || '').trim().replace(/^"|"$/g, '');
+            let displayTitle = (rawTitle.toLowerCase() === 'khác') ? '' : rawTitle;
+            let company = (row[idxCompany] || '---').trim().replace(/^"|"$/g, '');
+            let address = (row[idxAddress] || '---').trim().replace(/^"|"$/g, '');
+            let amountRaw = (row[idxAmount] || '0').trim().replace(/^"|"$/g, '');
+            let note = (row[idxNote] || '---').trim().replace(/^"|"$/g, '');
+            let group = (row[idxGroup] || '').toLowerCase();
+            let phoneRaw = (row[idxPhone] || '').trim().replace(/^"|"$/g, '').replace(/\s/g, '');
+            let displayPhone = (phoneRaw !== "" && !phoneRaw.toLowerCase().includes("không")) ? `...${phoneRaw.slice(-4)}` : '---';
+            let cashValue = parseFloat(amountRaw.replace(/[^0-9]/g, '')) || 0;
+            totalCash += cashValue;
+
+            let finalAmountHtml = (cashValue > 0) ? 
+                `<span class="col-amount">${cashValue.toLocaleString('vi-VN')} đ</span>` : 
+                `<span class="gift-cell">${note !== '---' ? note : 'QUÀ TẶNG'}</span>`;
             
-            let company = (row[idxCompany] || '---').trim();
-            let address = (row[idxAddress] || '---').trim();
-            let phone = (row[idxPhone] || '').trim();
-            let amountRaw = (row[idxAmount] || '0').trim().replace(/[^0-9]/g, '');
-            let amount = parseInt(amountRaw) || 0;
-            let note = (row[idxNote] || '---').trim();
+            let finalNoteHtml = (cashValue > 0) ? note : '';
+            let rowClass = '';
+            if (group.includes('elite')) rowClass = 'row-elite';
+            else if (group.includes('5km')) rowClass = 'row-5km';
+            else if (group.includes('3km')) rowClass = 'row-3km';
 
-            total += amount;
-            let displayPhone = (phone.length > 4) ? `...${phone.slice(-4)}` : '---';
-
-            html += `<tr>
-                <td data-label="STT" class="col-stt">${count}</td>
-                <td data-label="Họ và Tên"><strong>${title} ${name}</strong></td>
-                <td data-label="Đơn vị">${company}</td>
-                <td data-label="Địa chỉ">${address}</td>
-                <td data-label="Số điện thoại">${displayPhone}</td>
-                <td data-label="Số tiền" class="col-amount">${amount > 0 ? amount.toLocaleString('vi-VN') + ' đ' : '<span class="gift-cell">QUÀ TẶNG</span>'}</td>
-                <td data-label="Ghi chú">${amount > 0 ? note : ''}</td>
+            bodyHtml += `<tr class="${rowClass}">
+                <td class="col-stt">${donorCount}</td>
+                <td class="col-name">
+                    <div class="name-container">
+                        <div class="prefix-box">${displayTitle}</div>
+                        <div class="name-box">${rawName}</div>
+                    </div>
+                </td>
+                <td class="col-company">${company}</td>
+                <td class="col-address">${address}</td>
+                <td class="col-phone">${displayPhone}</td>
+                <td>${finalAmountHtml}</td>
+                <td class="col-note">${finalNoteHtml}</td>
             </tr>`;
         });
 
-        document.getElementById('table-body').innerHTML = html;
-        document.querySelector('.total-amount-val').innerText = total.toLocaleString('vi-VN') + ' VNĐ';
-        document.getElementById('count').innerText = `Tổng cộng: ${count} lượt ủng hộ`;
+        document.getElementById('table-body').innerHTML = bodyHtml;
+        document.querySelectorAll('.total-amount-val').forEach(el => el.innerText = totalCash.toLocaleString('vi-VN') + ' VNĐ');
+        document.querySelectorAll('.total-text-display').forEach(el => el.innerText = docSoTiengViet(totalCash));
+        document.getElementById('count').innerText = `Tổng cộng: ${donorCount} lượt ủng hộ`;
+        const now = new Date();
+        document.getElementById('update-time').innerText = `Cập nhật: ${now.toLocaleTimeString('vi-VN')} - ${now.toLocaleDateString('vi-VN')}`;
     }
 
     fetchData();
-    setInterval(fetchData, 60000);
+    setInterval(fetchData, 60000); 
 </script>
+
 </body>
 </html>
